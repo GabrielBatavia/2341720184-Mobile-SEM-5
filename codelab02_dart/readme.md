@@ -14,6 +14,8 @@ void main() {
 }
 ```
 
+#### Output :
+<img width="987" height="370" alt="image" src="https://github.com/user-attachments/assets/94177d06-1a85-4d85-939e-58d0dc8ae423" />
 
 
 
