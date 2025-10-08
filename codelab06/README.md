@@ -52,3 +52,20 @@ Output :
 ![Screenshot1](img/ScreenshotTugas1b.png)
 
 
+## Praktikum 5: Implementasi image section
+
+Output :
+
+![Screenshot1](img/Screenshot5.png)
+
+<br>
+
+## Tugas 1
+
+Output :
+
+![Screenshot1](img/ScreenshotTugas2.png)
+
+<br>
+
+![Screenshot1](img/ScreenshotTugas2b.png)
