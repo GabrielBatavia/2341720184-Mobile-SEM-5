@@ -1,26 +1,75 @@
+// lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'widget/takepicture_screen.dart';
+
+import 'widget/takepicture_screen.dart';     // Praktikum 1 (kamera)
+// import 'widget/filter_carousel.dart';     // Tidak dipanggil langsung; tetap boleh diimport kalau perlu
 
 Future<void> main() async {
-  // Ensure that plugin services are initialized so that `availableCameras()`
-  // can be called before `runApp()`
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Obtain a list of the available cameras on the device.
   final cameras = await availableCameras();
-
-  // Get a specific camera from the list of available cameras.
   final firstCamera = cameras.first;
 
-  runApp(
-    MaterialApp(
+  runApp(MyApp(firstCamera: firstCamera));
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key, required this.firstCamera});
+  final CameraDescription firstCamera;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       theme: ThemeData.dark(),
-      home: TakePictureScreen(
-        // Pass the appropriate camera to the TakePictureScreen widget.
-        camera: firstCamera,
-      ),
       debugShowCheckedModeBanner: false,
-    ),
-  );
+      home: HomeMenu(firstCamera: firstCamera),
+    );
+  }
+}
+
+class HomeMenu extends StatelessWidget {
+  const HomeMenu({super.key, required this.firstCamera});
+  final CameraDescription firstCamera;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Praktikum 1 & 2')),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton.icon(
+                icon: const Icon(Icons.camera_alt),
+                label: const Text('Praktikum 1: Kamera'),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => TakePictureScreen(camera: firstCamera),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.palette),
+                label: const Text('Praktikum 2: Photo Filter Carousel'),
+                onPressed: () {
+                  // Alur praktikum 2: ambil foto dulu, lalu filter di layar berikutnya
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => TakePictureScreen(camera: firstCamera),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

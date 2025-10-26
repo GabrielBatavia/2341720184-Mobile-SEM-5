@@ -1,12 +1,12 @@
 // lib/widget/displaypicture_screen.dart
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'filter_carousel.dart';
 
-/// A widget that displays the picture taken by the user.
-/// Gunakan bytes agar kompatibel dengan Flutter Web & Mobile.
+/// Menampilkan foto yang baru diambil, dan tombol untuk membuka filter.
 class DisplayPictureScreen extends StatelessWidget {
-  final Uint8List imageBytes;
-  final String? imagePath; // opsional, untuk debugging/menampilkan info
+  final Uint8List imageBytes;    // FOTO DALAM BYTES (aman utk Web & Mobile)
+  final String? imagePath;       // opsional, hanya untuk info/log
 
   const DisplayPictureScreen({
     super.key,
@@ -17,23 +17,24 @@ class DisplayPictureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture - 2341720184 ')),
+      appBar: AppBar(title: const Text('Display the Picture - 23141720184')),
       body: Center(
         child: Image.memory(
           imageBytes,
           fit: BoxFit.contain,
         ),
       ),
-      bottomNavigationBar: imagePath == null
-          ? null
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Path: $imagePath',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: const Icon(Icons.palette),
+        label: const Text('Edit with Filter'),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => PhotoFilterCarousel(imageBytes: imageBytes),
             ),
+          );
+        },
+      ),
     );
   }
 }
