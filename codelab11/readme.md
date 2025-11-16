@@ -121,3 +121,36 @@ Ini membuat tampilan lebih rapi, tidak terlalu panjang, dan tidak melebihi layar
    
       Sintaks lebih pendek, lebih umum digunakan.
    
+
+# Praktikum 5
+
+## Soal 9
+
+1. Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan "W11: Soal 9".
+
+    Jawab :
+
+   ![Screenshot](img/Screenshot6.gif)
+
+
+## Soal 10
+
+1. Panggil method handleError() tersebut di ElevatedButton, lalu run. Apa hasilnya? Jelaskan perbedaan kode langkah 1 dan 4!
+
+    Jawab :
+
+    Ketika tombol GO! ditekan:
+
+    handleError() dijalankan.
+    
+    returnError() menunggu 2 detik lalu melempar error.
+    
+    Bagian catch(error) menangkap error dan menampilkan pesan:
+    
+    Exception: Something terrible happened!
+    
+    Bagian finally akan SELALU berjalan, menghasilkan output pada console:
+
+    Complete
+
+    CircularProgressIndicator berhenti (loading = false).

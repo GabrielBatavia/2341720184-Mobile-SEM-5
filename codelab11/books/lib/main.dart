@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:async/async.dart'; 
+import 'package:async/async.dart';
 
 void main() => runApp(const MyApp());
 
@@ -32,120 +32,31 @@ class _FuturePageState extends State<FuturePage> {
   bool loading = false;
 
 
-  /*
-  Future<http.Response> getData() {
-    const String bookId = "junbDwAAQBAJ";
-    return http.get(
-      Uri.https("www.googleapis.com", "/books/v1/volumes/$bookId"),
-    );
-  }
-  */
-
-  /*
-  // Praktikum 2
-  Future<int> returnOneAsync() async {
-    await Future.delayed(const Duration(seconds: 3));
-    return 1;
+  Future returnError() async {
+    await Future.delayed(const Duration(seconds: 2));
+    throw Exception('Something terrible happened!');
   }
 
-  Future<int> returnTwoAsync() async {
-    await Future.delayed(const Duration(seconds: 3));
-    return 2;
-  }
 
-  Future<int> returnThreeAsync() async {
-    await Future.delayed(const Duration(seconds: 3));
-    return 3;
-  }
-  */
-
-  /*
-  // Praktikum 3 Completer
-  late Completer completer;
-
-  Future getNumber() {
-    completer = Completer<int>();
-    calculate();
-    return completer.future;
-  }
-
-  Future calculate() async {
-    try {
-      await Future.delayed(const Duration(seconds: 5));
-      completer.complete(42);
-    } catch (_) {
-      completer.completeError({});
-    }
-  }
-  */
-
-
-
-  // Re-activate function dari praktikum 2 (dibutuhkan oleh FutureGroup)
-  Future<int> returnOneAsync() async {
-    await Future.delayed(const Duration(seconds: 3));
-    return 1;
-  }
-
-  Future<int> returnTwoAsync() async {
-    await Future.delayed(const Duration(seconds: 3));
-    return 2;
-  }
-
-  Future<int> returnThreeAsync() async {
-    await Future.delayed(const Duration(seconds: 3));
-    return 3;
-  }
-
-  // Langkah 1 — FutureGroup
-  void returnFG() {
+  Future handleError() async {
     setState(() {
       loading = true;
       result = "";
     });
 
-    FutureGroup<int> futureGroup = FutureGroup<int>();
-
-    futureGroup.add(returnOneAsync());
-    futureGroup.add(returnTwoAsync());
-    futureGroup.add(returnThreeAsync());
-    futureGroup.close();
-
-    futureGroup.future.then((List<int> value) {
-      int total = 0;
-      for (var element in value) {
-        total += element;
-      }
+    try {
+      await returnError();
+    } catch (error) {
       setState(() {
-        result = total.toString(); // hasil = 6
+        result = error.toString();     // tampilkan pesan error ke UI
+      });
+    } finally {
+      print('Complete');               // selalu muncul di debug console
+      setState(() {
         loading = false;
       });
-    });
+    }
   }
-
-  // Langkah 4 — Future.wait
-  void returnWait() async {
-    setState(() {
-      loading = true;
-      result = "";
-    });
-
-    final futures = Future.wait<int>([
-      returnOneAsync(),
-      returnTwoAsync(),
-      returnThreeAsync(),
-    ]);
-
-    final value = await futures; // value = [1,2,3]
-
-    int total = value.fold(0, (sum, item) => sum + item);
-
-    setState(() {
-      result = total.toString();
-      loading = false;
-    });
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -156,15 +67,15 @@ class _FuturePageState extends State<FuturePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton(
-              child: const Text("GO!"),
+              child: const Text("Go!"),
               onPressed: () {
-                // Ubah sesuai langkah 2:
-                returnFG(); // atau returnWait() untuk langkah 4
+                handleError();   // panggil method baru
               },
             ),
 
             const SizedBox(height: 20),
-            Text(result, style: const TextStyle(fontSize: 28)),
+            Text(result, style: const TextStyle(fontSize: 22)),
+
             const SizedBox(height: 20),
             if (loading) const CircularProgressIndicator(),
           ],
