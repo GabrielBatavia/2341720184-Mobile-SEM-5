@@ -74,3 +74,50 @@ Ini membuat tampilan lebih rapi, tidak terlalu panjang, dan tidak melebihi layar
 
    ![Screenshot](img/Screenshot4.png)
 
+
+
+# Praktikum 4
+
+## Soal 7
+
+1. Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan "W11: Soal 7".
+
+   Jawab : 
+   
+   ![Screenshot](img/Screenshot5.gif)
+   
+
+## Soal 8
+
+1. Jelaskan maksud perbedaan kode langkah 1 dan 4!
+
+   Jawab : 
+   
+   - Langkah 1 — FutureGroup 
+   
+      Mengelola Future secara manual. 
+   
+      Kita menambahkan Future satu per satu ke dalam objek futureGroup. 
+      
+      Setelah close(), FutureGroup mulai memproses semuanya paralel.
+      
+      Cocok saat ingin mengelola Future dinamis (jumlahnya bisa berubah).
+   
+      Hasil dikembalikan sebagai List<int> ketika semua Future selesai.
+      
+   <br>
+   
+   - Langkah 4 — Future.wait
+   
+      Cara lebih ringkas dari FutureGroup.
+   
+      Hanya cukup memberikan list Future:
+   
+      Future.wait([f1, f2, f3])
+   
+      Proses berjalan paralel otomatis.
+   
+      Cocok ketika Future jumlahnya tetap / statis.
+   
+      Sintaks lebih pendek, lebih umum digunakan.
+   

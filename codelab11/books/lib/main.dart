@@ -39,13 +39,49 @@ class _FuturePageState extends State<FuturePage> {
       Uri.https("www.googleapis.com", "/books/v1/volumes/$bookId"),
     );
   }
+  */
 
-  void _onGoPressed() {
-    ...
+  /*
+  // Praktikum 2
+  Future<int> returnOneAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 1;
+  }
+
+  Future<int> returnTwoAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 2;
+  }
+
+  Future<int> returnThreeAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 3;
   }
   */
 
   /*
+  // Praktikum 3 Completer
+  late Completer completer;
+
+  Future getNumber() {
+    completer = Completer<int>();
+    calculate();
+    return completer.future;
+  }
+
+  Future calculate() async {
+    try {
+      await Future.delayed(const Duration(seconds: 5));
+      completer.complete(42);
+    } catch (_) {
+      completer.completeError({});
+    }
+  }
+  */
+
+
+
+  // Re-activate function dari praktikum 2 (dibutuhkan oleh FutureGroup)
   Future<int> returnOneAsync() async {
     await Future.delayed(const Duration(seconds: 3));
     return 1;
@@ -61,51 +97,55 @@ class _FuturePageState extends State<FuturePage> {
     return 3;
   }
 
-  Future count() async {
+  // Langkah 1 — FutureGroup
+  void returnFG() {
     setState(() {
       loading = true;
       result = "";
     });
 
-    int total = 0;
-    total = await returnOneAsync();
-    total += await returnTwoAsync();
-    total += await returnThreeAsync();
+    FutureGroup<int> futureGroup = FutureGroup<int>();
+
+    futureGroup.add(returnOneAsync());
+    futureGroup.add(returnTwoAsync());
+    futureGroup.add(returnThreeAsync());
+    futureGroup.close();
+
+    futureGroup.future.then((List<int> value) {
+      int total = 0;
+      for (var element in value) {
+        total += element;
+      }
+      setState(() {
+        result = total.toString(); // hasil = 6
+        loading = false;
+      });
+    });
+  }
+
+  // Langkah 4 — Future.wait
+  void returnWait() async {
+    setState(() {
+      loading = true;
+      result = "";
+    });
+
+    final futures = Future.wait<int>([
+      returnOneAsync(),
+      returnTwoAsync(),
+      returnThreeAsync(),
+    ]);
+
+    final value = await futures; // value = [1,2,3]
+
+    int total = value.fold(0, (sum, item) => sum + item);
 
     setState(() {
       result = total.toString();
       loading = false;
     });
   }
-  */
 
-
-
-
-  late Completer completer;
-
-  Future getNumber() {
-    completer = Completer<int>(); // buat future secara manual
-    calculate();                  // mulai proses async
-    return completer.future;      // kembalikan future yang bisa ditunggu
-  }
-
-  // LANGKAH 5 — ganti method calculate() dengan try–catch
-  Future calculate() async {
-    try {
-      await Future.delayed(const Duration(seconds: 5));
-      // Uncomment untuk mengetes error:
-      // throw Exception("Error test");
-
-      completer.complete(42); // sukses
-    } catch (_) {
-      completer.completeError({}); // gagal → akan ditangkap catchError()
-    }
-  }
-
-  // ============================================================
-  // UI
-  // ============================================================
 
   @override
   Widget build(BuildContext context) {
@@ -118,30 +158,14 @@ class _FuturePageState extends State<FuturePage> {
             ElevatedButton(
               child: const Text("GO!"),
               onPressed: () {
-                setState(() {
-                  loading = true;
-                  result = "";
-                });
-
-                // LANGKAH 6 — pakai then + catchError
-                getNumber().then((value) {
-                  setState(() {
-                    result = value.toString();
-                    loading = false;
-                  });
-                }).catchError((e) {
-                  setState(() {
-                    result = "An error occurred";
-                    loading = false;
-                  });
-                });
+                // Ubah sesuai langkah 2:
+                returnFG(); // atau returnWait() untuk langkah 4
               },
             ),
-            const SizedBox(height: 20),
 
+            const SizedBox(height: 20),
             Text(result, style: const TextStyle(fontSize: 28)),
             const SizedBox(height: 20),
-
             if (loading) const CircularProgressIndicator(),
           ],
         ),
