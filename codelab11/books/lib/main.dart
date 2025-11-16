@@ -6,11 +6,14 @@ void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Future Demo — GabrielBatavia',
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue)),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+      ),
       home: const FuturePage(),
     );
   }
@@ -18,63 +21,107 @@ class MyApp extends StatelessWidget {
 
 class FuturePage extends StatefulWidget {
   const FuturePage({super.key});
+
   @override
   State<FuturePage> createState() => _FuturePageState();
 }
 
 class _FuturePageState extends State<FuturePage> {
-  String result = '';
+  String result = "";
   bool loading = false;
 
-  // PILIH SALAH SATU: id atau query (keduanya valid)
   Future<http.Response> getData() {
-    // 1) By volume id (valid)
-    // return http.get(Uri.https('www.googleapis.com', '/books/v1/volumes/gZ-1DwAAQBAJ'));
-
-    // 2) By search query (juga valid)
-    return http.get(Uri.https('www.googleapis.com', '/books/v1/volumes', {
-      'q': 'intitle:What If Jesus Was Serious',
-      'maxResults': '1',
-    }));
+    const String bookId = "junbDwAAQBAJ";
+    return http.get(
+      Uri.https("www.googleapis.com", "/books/v1/volumes/$bookId"),
+    );
   }
 
+  /*
   void _onGoPressed() {
     setState(() {
       loading = true;
-      result = '';
+      result = "";
     });
 
     getData()
         .then((resp) {
-          setState(() {
-            if (resp.statusCode == 200) {
-              final body = resp.body;
-              result = body.substring(0, body.length < 450 ? body.length : 450);
-            } else {
-              result = 'HTTP ${resp.statusCode}: ${resp.reasonPhrase ?? 'Unknown'}';
-            }
-          });
+          if (resp.statusCode == 200) {
+            final body = resp.body;
+            final snippet =
+                body.substring(0, body.length < 450 ? body.length : 450);
+            setState(() {
+              result = snippet;
+            });
+          } else {
+            setState(() {
+              result =
+                  "HTTP ${resp.statusCode}: ${resp.reasonPhrase ?? 'Unknown'}";
+            });
+          }
         })
         .catchError((e) {
           setState(() {
-            result = 'Network/CORS error: $e';
+            result = "Network error: $e";
           });
         })
-        .whenComplete(() => setState(() => loading = false));
+        .whenComplete(() {
+          setState(() => loading = false);
+        });
+  }
+  */
+
+
+  Future<int> returnOneAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 1;
+  }
+
+  Future<int> returnTwoAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 2;
+  }
+
+  Future<int> returnThreeAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 3;
+  }
+
+  Future count() async {
+    setState(() {
+      loading = true;
+      result = "";
+    });
+
+    int total = 0;
+
+    total = await returnOneAsync();
+    total += await returnTwoAsync();
+    total += await returnThreeAsync();
+
+    setState(() {
+      result = total.toString();
+      loading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Back from the Future')),
+      appBar: AppBar(title: const Text("Back from the Future")),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ElevatedButton(onPressed: _onGoPressed, child: const Text('GO!')),
-            const SizedBox(height: 12),
-            Text(result),
-            const SizedBox(height: 12),
+            ElevatedButton(
+              child: const Text("GO!"),
+              onPressed: () {
+                count();
+              },
+            ),
+            const SizedBox(height: 16),
+            Text(result, style: const TextStyle(fontSize: 24)),
+            const SizedBox(height: 16),
             if (loading) const CircularProgressIndicator(),
           ],
         ),
