@@ -58,3 +58,19 @@ Ini membuat tampilan lebih rapi, tidak terlalu panjang, dan tidak melebihi layar
    Jawab : 
    
    ![Screenshot](img/Screenshot3.png)
+
+
+## Soal 6
+
+1. Jelaskan maksud perbedaan kode langkah 2 dengan langkah 5-6 tersebut!
+
+   Jawab :
+
+   Perbedaan utama antara langkah 2 dan langkah 5–6 adalah penanganan error
+
+2. Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan "W11: Soal 6".
+   
+   Jawab :
+
+   ![Screenshot](img/Screenshot4.png)
+
