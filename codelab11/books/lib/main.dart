@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:async/async.dart'; 
 
 void main() => runApp(const MyApp());
 
@@ -30,6 +31,7 @@ class _FuturePageState extends State<FuturePage> {
   String result = "";
   bool loading = false;
 
+  /*
   Future<http.Response> getData() {
     const String bookId = "junbDwAAQBAJ";
     return http.get(
@@ -37,41 +39,12 @@ class _FuturePageState extends State<FuturePage> {
     );
   }
 
-  /*
   void _onGoPressed() {
-    setState(() {
-      loading = true;
-      result = "";
-    });
-
-    getData()
-        .then((resp) {
-          if (resp.statusCode == 200) {
-            final body = resp.body;
-            final snippet =
-                body.substring(0, body.length < 450 ? body.length : 450);
-            setState(() {
-              result = snippet;
-            });
-          } else {
-            setState(() {
-              result =
-                  "HTTP ${resp.statusCode}: ${resp.reasonPhrase ?? 'Unknown'}";
-            });
-          }
-        })
-        .catchError((e) {
-          setState(() {
-            result = "Network error: $e";
-          });
-        })
-        .whenComplete(() {
-          setState(() => loading = false);
-        });
+    ...
   }
   */
 
-
+  /*
   Future<int> returnOneAsync() async {
     await Future.delayed(const Duration(seconds: 3));
     return 1;
@@ -94,7 +67,6 @@ class _FuturePageState extends State<FuturePage> {
     });
 
     int total = 0;
-
     total = await returnOneAsync();
     total += await returnTwoAsync();
     total += await returnThreeAsync();
@@ -103,6 +75,21 @@ class _FuturePageState extends State<FuturePage> {
       result = total.toString();
       loading = false;
     });
+  }
+  */
+
+
+  late Completer completer;
+
+  Future getNumber() {
+    completer = Completer<int>();
+    calculate();
+    return completer.future;
+  }
+
+  Future calculate() async {
+    await Future.delayed(const Duration(seconds: 5));
+    completer.complete(42);
   }
 
   @override
@@ -116,12 +103,22 @@ class _FuturePageState extends State<FuturePage> {
             ElevatedButton(
               child: const Text("GO!"),
               onPressed: () {
-                count();
+                setState(() {
+                  loading = true;
+                  result = "";
+                });
+
+                getNumber().then((value) {
+                  setState(() {
+                    result = value.toString();
+                    loading = false;
+                  });
+                });
               },
             ),
-            const SizedBox(height: 16),
-            Text(result, style: const TextStyle(fontSize: 24)),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
+            Text(result, style: const TextStyle(fontSize: 28)),
+            const SizedBox(height: 20),
             if (loading) const CircularProgressIndicator(),
           ],
         ),

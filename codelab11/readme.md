@@ -37,3 +37,24 @@ Ini membuat tampilan lebih rapi, tidak terlalu panjang, dan tidak melebihi layar
 
     ![Screenshot](img/Screenshot2.png)
    
+
+
+# Praktikum 3
+
+## Soal 5
+
+1. Jelaskan maksud kode langkah 2 tersebut!
+
+   Jawab :
+   
+   Completer digunakan untuk membuat Future secara manual, bukan menggunakan async/await langsung.
+
+   getNumber() membuat objek Completer<int>() dan memulai proses calculate().
+   
+   Method calculate() berjalan asynchronous dan menunggu 5 detik.
+
+2. Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan "W11: Soal 5".
+
+   Jawab : 
+   
+   ![Screenshot](img/Screenshot3.png)
