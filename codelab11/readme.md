@@ -196,7 +196,7 @@ Ini membuat tampilan lebih rapi, tidak terlalu panjang, dan tidak melebihi layar
     Ya, saat terjadi error sekarang UI menampilkan teks “Something terrible happened!”.
     Sebelumnya error ditampilkan apa adanya (atau tidak jelas), sekarang kita menangani snapshot.hasError dan memberikan pesan error yang konsisten dan lebih terkontrol di UI.
 
-    ![Screenshot](img/Screenshot7.png)
+    ![Screenshot](img/Screenshot8.png)
 
 
 
@@ -225,4 +225,19 @@ Ini membuat tampilan lebih rapi, tidak terlalu panjang, dan tidak melebihi layar
     Karena Navigator.push di NavigationFirst mengembalikan sebuah **Future<Color?>. Di NavigationSecond, tiap button memanggil Navigator.pop(context, someColor), sehingga Future tersebut **selesai** dengan nilai someColor. Setelah awaitselesai, kita panggilsetState()dan mengubah variabelcolor`, sehingga UI pertama rebuild dengan background warna baru.
 
 
-    ![Screenshot](img/Screenshot8.png)
+    ![Screenshot](img/Screenshot9.gif)
+
+
+# Praktikum 9
+
+## Soal 17
+1. Cobalah klik setiap button, apa yang terjadi ? Mengapa demikian ?
+
+    Jawab :
+    Gantilah 3 warna pada langkah 3 dengan warna favorit Anda!
+
+2. Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan "W11: Soal 17".
+
+    Jawab :
+
+    ![Screenshot](img/Screenshot10.gif)
