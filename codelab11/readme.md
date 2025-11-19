@@ -199,3 +199,30 @@ Ini membuat tampilan lebih rapi, tidak terlalu panjang, dan tidak melebihi layar
     ![Screenshot](img/Screenshot7.png)
 
 
+
+# Praktikum 8
+
+## Soal 15
+
+1. Tambahkan nama panggilan Anda pada tiap properti title sebagai identitas pekerjaan Anda.
+
+    Jawab :
+
+    Nama panggilan yang ditambahkan di title: Gabriel Batavia (Navigation First – Gabriel Batavia, Navigation Second – Gabriel Batavia).
+
+2. Silakan ganti dengan warna tema favorit Anda.
+
+
+## Soal 16
+
+1. Cobalah klik setiap button, apa yang terjadi? Mengapa demikian?
+
+    Jawab :
+
+    Saat di screen kedua kamu klik sebuah button warna, screen kedua akan tertutup dan kembali ke screen pertama.
+    Background screen pertama berubah menjadi warna yang tadi kamu pilih.
+    Kenapa?
+    Karena Navigator.push di NavigationFirst mengembalikan sebuah **Future<Color?>. Di NavigationSecond, tiap button memanggil Navigator.pop(context, someColor), sehingga Future tersebut **selesai** dengan nilai someColor. Setelah awaitselesai, kita panggilsetState()dan mengubah variabelcolor`, sehingga UI pertama rebuild dengan background warna baru.
+
+
+    ![Screenshot](img/Screenshot8.png)

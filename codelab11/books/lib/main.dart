@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'geolocation.dart';  // import screen lokasi
+import 'navigation_first.dart';
 
 void main() => runApp(const MyApp());
 
@@ -9,12 +9,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Geolocation Demo — Gabriel Batavia',
+      title: 'Navigation Future – Gabriel Batavia',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
       ),
-      
-      home: const LocationScreen(),
+      // Langkah 6: pakai NavigationFirst sebagai home
+      home: const NavigationFirst(),
     );
   }
 }
