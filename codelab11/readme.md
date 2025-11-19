@@ -154,3 +154,48 @@ Ini membuat tampilan lebih rapi, tidak terlalu panjang, dan tidak melebihi layar
     Complete
 
     CircularProgressIndicator berhenti (loading = false).
+
+
+
+# Praktikum 6
+
+
+## Soal 12
+
+1. Apakah Anda mendapatkan koordinat GPS ketika run di browser? Mengapa demikian?
+
+    Jawab :
+
+    Tidak, di browser biasanya tidak mendapat koordinat GPS.
+    Karena plugin geolocator pada praktikum ini dibuat untuk akses GPS device (Android/iOS), sedangkan di browser akses GPS terbatas/berbeda sehingga plugin tidak bisa mengambil koordinat seperti di emulator atau HP.
+
+2. Capture hasil praktikum Anda berupa GIF dan lampirkan di README. Lalu lakukan commit dengan pesan "W11: Soal 12".
+
+    Jawab :
+
+   ![Screenshot](img/Screenshot7.gif)
+
+
+# Praktikum 7
+
+## Soal 13
+
+1. Apakah ada perbedaan UI dengan praktikum sebelumnya? Mengapa demikian?
+
+    Jawab :
+    
+    Secara tampilan hampir tidak berbeda: tetap ada loading lalu teks koordinat.
+    Bedanya ada di cara pengelolaan datanya – sekarang kita pakai FutureBuilder sehingga UI otomatis rebuild mengikuti status Future tanpa perlu setState manual.
+
+## Soal 14
+
+1. Apakah ada perbedaan UI dengan langkah sebelumnya? Mengapa demikian?
+
+    Jawab :
+
+    Ya, saat terjadi error sekarang UI menampilkan teks “Something terrible happened!”.
+    Sebelumnya error ditampilkan apa adanya (atau tidak jelas), sekarang kita menangani snapshot.hasError dan memberikan pesan error yang konsisten dan lebih terkontrol di UI.
+
+    ![Screenshot](img/Screenshot7.png)
+
+
