@@ -2,8 +2,6 @@
 
 ## Praktikum 1
 
-## Soal 3
-
 1. Jelaskan fungsi keyword yield* pada kode tersebut!
 
     Jawab : 
@@ -46,3 +44,26 @@ Stream<Color> getColors() async* {
     Cocok kalau kita ingin memproses stream secara berurutan dan hanya punya satu konsumen.
 
     ![Screenshot](img/Screenshot1.gif)
+
+
+# Praktikum 2
+
+6. Jelaskan maksud kode langkah 8 dan 10 tersebut!
+
+    Jawab : 
+
+    Langkah 8 menghubungkan NumberStream → StreamController → Stream → UI, jadi setiap angka baru yang kita kirim akan tampil di layar.
+    Langkah 10 adalah tombol untuk mengirim angka random ke stream, sehingga nilai di layar berubah setiap kali tombol ditekan.
+
+7. Jelaskan maksud kode langkah 13 sampai 15 tersebut!
+
+    Jawab :
+
+    Langkah 13 membuat fungsi untuk menyuntikkan error ke stream.
+    Langkah 14 menambahkan handler onError sehingga UI bisa bereaksi terhadap error (menampilkan -1).
+    Langkah 15 mengubah tombol agar memicu error daripada mengirim angka biasa, sehingga kita bisa melihat bagaimana error diproses oleh stream.
+
+    ![Screenshot](img/Screenshot2.gif)
+
+
+# Praktikum 3

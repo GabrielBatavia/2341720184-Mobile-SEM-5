@@ -1,4 +1,7 @@
 // lib/main.dart
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'stream.dart';
 
@@ -12,9 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Soal 1: tambahkan nama panggilan pada title
+      // Tetap pakai nama kamu (Soal 1 praktikum 1)
       title: 'Stream — Gabriel Batavia',
-      // Soal 1: ganti warna tema sesuai kesukaan (contoh: indigo)
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
@@ -31,19 +33,42 @@ class StreamHomePage extends StatefulWidget {
 }
 
 class _StreamHomePageState extends State<StreamHomePage> {
-  // Langkah 8: variabel background color & ColorStream
+  // PRAKTIKUM 1: warna background
   Color bgColor = Colors.blueGrey;
   late ColorStream colorStream;
+
+  // PRAKTIKUM 2: angka dari NumberStream
+  int lastNumber = 0;
+  late StreamController<int> numberStreamController;
+  late NumberStream numberStream;
 
   @override
   void initState() {
     super.initState();
-    // Langkah 10: inisialisasi ColorStream & panggil changeColor
+
+    // --- Praktikum 1: mulai stream warna ---
     colorStream = ColorStream();
     changeColor();
+
+    // --- Praktikum 2: setup NumberStream & listener ---
+    numberStream = NumberStream();
+    numberStreamController = numberStream.controller;
+
+    Stream<int> stream = numberStreamController.stream;
+    stream.listen((event) {
+      // dipanggil setiap ada angka baru
+      setState(() {
+        lastNumber = event;
+      });
+    }).onError((error) {
+      // Langkah 14: kalau ada error, tampilkan -1
+      setState(() {
+        lastNumber = -1;
+      });
+    });
   }
 
-  // Langkah 9 + 13: method changeColor versi listen()
+  // Praktikum 1: ubah warna background berdasarkan ColorStream
   void changeColor() {
     colorStream.getColors().listen((eventColor) {
       setState(() {
@@ -53,15 +78,45 @@ class _StreamHomePageState extends State<StreamHomePage> {
   }
 
   @override
+  void dispose() {
+    // Langkah 9: tutup controller ketika widget dibuang
+    numberStreamController.close();
+    super.dispose();
+  }
+
+  // Langkah 10 (versi akhir setelah Soal 7):
+  // generate angka random dan kirim ke sink
+  void addRandomNumber() {
+    Random random = Random();
+    int myNum = random.nextInt(10); // 0..9
+    numberStream.addNumberToSink(myNum);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Biar kelihatan juga di AppBar
         title: const Text('Stream — Gabriel Batavia'),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          color: bgColor,
+        color: bgColor, // tetap pakai background warna dari praktikum 1
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              lastNumber.toString(),
+              style: const TextStyle(
+                fontSize: 40,
+                color: Colors.white,
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () => addRandomNumber(),
+              child: const Text('New Random Number'),
+            ),
+          ],
         ),
       ),
     );
