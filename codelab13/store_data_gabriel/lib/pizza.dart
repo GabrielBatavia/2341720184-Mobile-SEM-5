@@ -1,4 +1,11 @@
 class Pizza {
+  // Praktikum 3: Konstanta nama key JSON
+  static const String keyId = 'id';
+  static const String keyName = 'pizzaName';
+  static const String keyDescription = 'description';
+  static const String keyPrice = 'price';
+  static const String keyImage = 'imageUrl';
+
   final int id;
   final String pizzaName;
   final String description;
@@ -13,28 +20,28 @@ class Pizza {
     required this.imageUrl,
   });
 
-  /// Praktikum 2: handle data JSON yang tidak konsisten
+  /// fromJson() dengan konstanta + handling error praktikum 2
   factory Pizza.fromJson(Map<String, dynamic> json) {
-    // Langkah 3: int.tryParse + ?? 0 untuk id
-    final int parsedId = int.tryParse(json['id'].toString()) ?? 0;
+    // int.tryParse + ?? 0 untuk id
+    final int parsedId =
+        int.tryParse(json[keyId].toString()) ?? 0;
 
-    // Langkah 5 + 6 + 10:
-    //  - gunakan toString()
-    //  - operator ternary supaya tidak menampilkan "null" ke user
-    final String parsedName = json['pizzaName'] != null
-        ? json['pizzaName'].toString()
+    // toString + ternary supaya tidak menampilkan "null"
+    final String parsedName = json[keyName] != null
+        ? json[keyName].toString()
         : 'No name';
 
-    final String parsedDescription = json['description'] != null
-        ? json['description'].toString()
+    final String parsedDescription = json[keyDescription] != null
+        ? json[keyDescription].toString()
         : '';
 
-    // Langkah 7 + 8: double.tryParse + ?? 0 untuk price
+    // double.tryParse + ?? 0.0 untuk price
     final double parsedPrice =
-        double.tryParse(json['price'].toString()) ?? 0.0;
+        double.tryParse(json[keyPrice].toString()) ?? 0.0;
 
-    // Langkah 4 + 5: null coalescing untuk String (imageUrl)
-    final String parsedImageUrl = (json['imageUrl'] ?? '').toString();
+    // null coalescing untuk imageUrl
+    final String parsedImageUrl =
+        (json[keyImage] ?? '').toString();
 
     return Pizza(
       id: parsedId,
@@ -45,14 +52,14 @@ class Pizza {
     );
   }
 
-  /// (Dari praktikum 1) Konversi kembali ke JSON
+  /// toJson() dengan konstanta key
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'pizzaName': pizzaName,
-      'description': description,
-      'price': price,
-      'imageUrl': imageUrl,
+      keyId: id,
+      keyName: pizzaName,
+      keyDescription: description,
+      keyPrice: price,
+      keyImage: imageUrl,
     };
   }
 }
