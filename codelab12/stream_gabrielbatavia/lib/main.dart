@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Tetap pakai nama kamu (Soal 1 praktikum 1)
       title: 'Stream — Gabriel Batavia',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
@@ -37,10 +36,13 @@ class _StreamHomePageState extends State<StreamHomePage> {
   Color bgColor = Colors.blueGrey;
   late ColorStream colorStream;
 
-  // PRAKTIKUM 2: angka dari NumberStream
+  // PRAKTIKUM 2 & 3: angka dan stream controller
   int lastNumber = 0;
   late StreamController<int> numberStreamController;
   late NumberStream numberStream;
+
+  // PRAKTIKUM 3: transformer untuk memanipulasi data stream
+  late StreamTransformer<int, int> transformer;
 
   @override
   void initState() {
@@ -50,25 +52,38 @@ class _StreamHomePageState extends State<StreamHomePage> {
     colorStream = ColorStream();
     changeColor();
 
-    // --- Praktikum 2: setup NumberStream & listener ---
+    // --- Praktikum 2: setup NumberStream & controller ---
     numberStream = NumberStream();
     numberStreamController = numberStream.controller;
 
+    // --- Praktikum 3: definisi transformer (Langkah 2) ---
+    transformer = StreamTransformer<int, int>.fromHandlers(
+      handleData: (value, sink) {
+        // setiap angka dikali 10 sebelum dikirim ke listener
+        sink.add(value * 10);
+      },
+      handleError: (error, stackTrace, sink) {
+        // kalau ada error, kirim -1 ke listener
+        sink.add(-1);
+      },
+      handleDone: (sink) => sink.close(),
+    );
+
+    // --- Praktikum 3: pakai transform() sebelum listen (Langkah 3) ---
     Stream<int> stream = numberStreamController.stream;
-    stream.listen((event) {
-      // dipanggil setiap ada angka baru
+    stream.transform(transformer).listen((event) {
       setState(() {
-        lastNumber = event;
+        lastNumber = event; // event sudah hasil transform (value*10)
       });
     }).onError((error) {
-      // Langkah 14: kalau ada error, tampilkan -1
+      // fallback kalau masih ada error
       setState(() {
         lastNumber = -1;
       });
     });
   }
 
-  // Praktikum 1: ubah warna background berdasarkan ColorStream
+  // Praktikum 1: ubah warna background pakai ColorStream
   void changeColor() {
     colorStream.getColors().listen((eventColor) {
       setState(() {
@@ -79,12 +94,11 @@ class _StreamHomePageState extends State<StreamHomePage> {
 
   @override
   void dispose() {
-    // Langkah 9: tutup controller ketika widget dibuang
     numberStreamController.close();
     super.dispose();
   }
 
-  // Langkah 10 (versi akhir setelah Soal 7):
+  // Masih sama seperti Praktikum 2:
   // generate angka random dan kirim ke sink
   void addRandomNumber() {
     Random random = Random();
@@ -99,7 +113,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
         title: const Text('Stream — Gabriel Batavia'),
       ),
       body: Container(
-        color: bgColor, // tetap pakai background warna dari praktikum 1
+        color: bgColor,
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

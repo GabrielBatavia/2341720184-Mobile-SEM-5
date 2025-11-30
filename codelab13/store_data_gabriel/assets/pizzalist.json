@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "pizzaName": "Margherita",
+    "description": "Pizza with tomato, fresh mozzarella and basil",
+    "price": "8.75",
+    "imageUrl": "images/margherita.png"
+  },
+  {
+    "id": "2",
+    "pizzaName": null,
+    "description": null,
+    "price": "7.50",
+    "imageUrl": null
+  },
+  {
+    "id": 3,
+    "pizzaName": "Napoli",
+    "description": "Pizza with anchovies",
+    "price": "6.75",
+    "imageUrl": "images/napoli.png"
+  },
+  {
+    "id": "x4",
+    "pizzaName": "Buffala",
+    "description": "Pizza with tomato, buffalo mozzarella and basil",
+    "price": "free",
+    "imageUrl": "images/buffala.png"
+  }
+]
